@@ -175,6 +175,13 @@
             resultsContainer.classList.add('hidden');
             hideError();
             
+            // Görsel yükleme alanını sıfırla
+            uploadedImageBase64 = null;
+            imageInput.value = null; // Dosya girişini temizle
+            imagePreview.src = "";
+            imagePreview.classList.add('hidden');
+            uploadPrompt.classList.remove('hidden');
+
             // Tüm tabları pasif yap
             [tabDream, tabCoffee, tabPalm].forEach(tab => tab.classList.remove('tab-active'));
             
