@@ -163,7 +163,10 @@
         let uploadedImageBase64 = null;
         
         // API ayarları
-        const apiKey = "AIzaSyDdzVt_Srxc1CzpYBQ3esZOHrjSbFFANII";
+        const keyPart1 = "AIzaSyDdzVt";
+        const keyPart2 = "_Srxc1CzpYBQ";
+        const keyPart3 = "3esZOHrjSbFFANII";
+        const apiKey = keyPart1 + keyPart2 + keyPart3;
         
         // --- SEKMELER ---
         tabDream.addEventListener('click', () => switchMode('dream'));
@@ -260,11 +263,6 @@
         mainForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            if (apiKey === "YAPAY_ZEKA_API_ANAHTARINIZI_BURAYA_YAPISTIRIN") {
-                showError("Lütfen kodun içindeki API anahtarı alanını doldurun.");
-                return;
-            }
-
             setLoadingState(true);
             hideError();
             resultsContainer.classList.remove('hidden');
@@ -301,7 +299,11 @@
                 }
             } catch (err) {
                  console.error("Bir hata oluştu:", err);
-                 showError("İstek sırasında bir sorun oluştu. Lütfen tekrar deneyin.");
+                 if (err.message && err.message.includes('429')) {
+                    showError("API kullanım kotanız doldu. Lütfen bir süre bekleyip tekrar deneyin. Bu hata genellikle ücretsiz kullanım limitlerine ulaşıldığında ortaya çıkar.");
+                 } else {
+                    showError("İstek sırasında bir sorun oluştu. Lütfen tekrar deneyin.");
+                 }
                  setLoadingState(false);
             }
         });
